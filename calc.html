@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <title> Calculator</title>
+ 
+  </head>
+  <body style = "text-align: left">
+    <div style = "text-align: center; width: 25%">
+      <input type="text" id="firstnumber" name ="firstnumber"/>
+      <br>
+    <button onclick="give_number(one)">1</button>
+    <button onclick="give_number(two)">2</button>
+    <button onclick="give_number(three)">3</button>
+    <br>
+    <button onclick="give_number(four)">4</button>
+    <button onclick="give_number(five)">5</button>
+    <button onclick="give_number(six)">6</button>
+    <br>
+    <button onclick="give_number(seven)">7</button>
+    <button onclick="give_number(eight)">8</button>
+    <button onclick="give_number(nine)">9</button>
+    <br>
+    <button onclick="give_number(zero)">0</button>
+    <br>
+    <br>
+    <button onclick="change_operation(add)">+</button>
+    <button onclick="change_operation(subtract)">-</button>
+    <button onclick="change_operation(mult)">*</button>
+    <button onclick="change_operation(divide)">\</button>
+    <br>
+    <button onclick="give_number(point)">.</button>
+    <button onclick="clearscreen()">C</button>
+    <button onclick="equals()">=</button>
+    <button onclick="changesign()">+\-</button>
+    </div>
+    </div>
+    
+    
+    
+
+</body>
+ <script>
+    const add = "+"; //These constants are passed from buttons on the html page to different fucntions to indicate which button has been pressed. 
+    const subtract = "-";
+    const mult = "*";
+    const divide = "/";
+    const one = "1";
+    const two = "2";
+    const three = "3";
+    const four = "4";
+    const five = "5";
+    const six = "6";
+    const seven = "7";
+    const eight = "8";
+    const nine = "9";
+    const zero = "0";
+    const point = "."
+    var first = 0; //first operand
+    var second = 0; //second operand
+    var operation = "n"; // Which operation to be performed,n equals no operation, otherwise + - */
+    var current_term = 1;//which term is currently being entered into calc. can be 1 or 2 respectivley
+    var step = 1; //which step of the process we are on (i.e entering first term, operation, or second term.
+
+    function update_screen(){   //updates screen with current operands and operation. 
+	if (step == 1){
+	    document.getElementById("firstnumber").value = first;
+	}
+	else if (step == 2){
+	    document.getElementById("firstnumber").value = first + " " + operation;
+	}
+	else if (step == 3){
+	    document.getElementById("firstnumber").value = first + " " + operation + " " + second;
+	}
+	
+	    
+    }
+
+    function give_number(num){ //Adds a number to the current operand
+	if (current_term == 1) {
+	    if(first == 0){
+		first = num;
+		update_screen();
+	    }
+	    else {
+	    temp = first;
+	    first =   "" + temp + num;
+		update_screen();
+	    }
+	}
+	else if (current_term == 2){
+	    if (second == 0){
+		second = num;
+		update_screen();
+	    }
+	    else{
+	    temp = second;
+	    second = "" + temp + num;
+		update_screen();
+	    }
+	}
+    }
+
+    function change_operation(op){ //Changes current operation
+	if (current_term === 1){
+	    
+	if (op == "+") {
+	    operation = "+";
+	    step = 2;
+	    current_term = 2;
+	    update_screen();
+	    step = 3;
+	}
+	else if (op == "-") {
+	    operation = "-";
+	    step = 2;
+	 current_term = 2;
+	    update_screen();
+	    step = 3;
+	}
+	else if (op == "*"){
+	    operation = "*";
+	    step = 2;
+	   current_term = 2;
+	    update_screen();
+	    step = 3;
+	}
+	else if (op == "/"){
+	    operation = "/";
+	    step = 2;
+	   current_term = 2;
+	    update_screen();
+	    step = 3;
+	}
+	}
+	
+    }
+
+    function equals(){    //solves problem and displays awnser
+	var awnser = 0;
+	if (operation == "+"){
+	    awnser = parseFloat(first) + parseFloat(second);   //convert strings to floating point
+	}
+	else if (operation == "-"){
+	    awnser = parseFloat(first) - parseFloat(second);
+	}
+	else if (operation == "*"){
+	    awnser = parseFloat(first) * parseFloat(second);
+	}
+	else if (operation == "/"){
+	    awnser = parseFloat(first) / parseFloat(second);
+	}
+	
+	
+	document.getElementById("firstnumber").value = awnser;
+	first = awnser;
+	second = 0;
+	step = 1;
+	current_term = 1;
+    }
+    
+    function clearscreen(){  //reset all values and update screen
+	first = 0;
+	second = 0;
+	operation = "n";
+	current_term = 1;
+	step = 1;
+	update_screen();
+    }
+
+    function changesign(){     //convert current operand to positive of negative
+	if (current_term === 1){
+	    if (first < 0){
+		first = Math.abs(first);
+		update_screen();
+	    }
+	    else if (first > 0){
+		first = first - (first * 2);
+		update_screen();
+	    }
+	}
+
+	else if (current_term === 2){
+	    if (second < 0){
+		second. Math.abs(second);
+		update_screen();
+	    }
+	    else if (second > 0){
+		second = second - (second * 2);
+		update_screen();
+	    }
+	}
+    }
+
+   clearscreen(); //clear all values on startup in case page has been reloaded but values remain in text box
+    
+   </script>
+
+
+  </html>
